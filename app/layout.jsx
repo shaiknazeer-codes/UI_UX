@@ -1,4 +1,5 @@
 import './globals.css'
+import Loader from '@/components/Loader'
 
 export const metadata = {
   title: 'Kestrel — Keyboard-First Command Center for Product Teams',
@@ -27,6 +28,11 @@ export default function RootLayout({ children }) {
         } else {
           document.documentElement.classList.remove('dark');
         }
+
+        // Check if intro loader was already shown in this browser session
+        if (sessionStorage.getItem('loaded') || sessionStorage.loaded) {
+          document.documentElement.classList.add('skip-loader');
+        }
       } catch (e) {}
     })();
   `
@@ -37,6 +43,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-screen bg-bg text-fg antialiased selection:bg-accent selection:text-white">
+        <Loader />
         {children}
       </body>
     </html>

@@ -35,8 +35,19 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
 - **Theme Persistence**: Synced to `localStorage` and toggled via the persistent navbar button.
 
 ### 3. Motion & Micro-Interactions
+- **Branded Intro Loader (`components/Loader.js`)**:
+  - Displays a 1.4s intro overlay on the initial session visit: center logo scale-in (0–0.3s), staggered wordmark reveal (0.2–0.7s), and an accent progress line fill (0–1.1s) before sliding up (`translateY(-100%)`).
+  - Connects to the Hero section via custom event `kestrel:revealed` to trigger staggered entrance animations.
+  - Persisted per session via `sessionStorage.loaded` and an inline `<head>` check that attaches `.skip-loader` to `<html>` to ensure zero FOUC on subsequent navigation.
+  - Includes a CSS-only `@keyframes loaderFallbackFade` (2s) guaranteeing the overlay never blocks content if JS is slow, plus an accessible 200ms simple fade under `prefers-reduced-motion`.
+- **Pure CSS Custom Blue Mouse Pointer**:
+  - Implemented in `app/globals.css` with `@media (hover: hover) and (pointer: fine)`.
+  - Default pointer: 24px blue arrow SVG (`#2563eb`) with white border and exact tip hotspot `(4 2)`.
+  - Interactive controls (`a`, `button`, tabs, switches): 28px blue arrow SVG (`#1d4ed8`).
+  - Inputs retain native text caret; disabled items retain `not-allowed`.
 - **Cursor Spotlight**: Bento grid cards calculate dynamic radial gradients based on real-time mouse coordinates `(mouseX, mouseY)` for a glowing spotlight effect.
 - **Sliding Tab Indicators**: Framer-style `layoutId="activeWorkflowIndicator"` seamlessly animates pill transitions across Plan, Build, and Ship tabs.
+- **Product Navigation**: Dropdown items feature distinctive color badges on hover (Indigo for Command Center, Purple for Workflow Engine, Amber for Keyboard Matrix, Emerald for Integration Mesh).
 - **Reduced Motion Friendly**: Motion components respect user accessibility preferences (`prefers-reduced-motion`).
 
 ### 4. Responsive & Accessible (A11y)

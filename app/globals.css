@@ -83,6 +83,34 @@ body {
   outline-offset: 2px;
 }
 
+/* Zero-flash skip-loader rule for subsequent page loads in session */
+.skip-loader #kestrel-loader {
+  display: none !important;
+}
+
+/* CSS-only fallback: guarantees the loader overlay never blocks the page if JS fails or is slow */
+@keyframes loaderFallbackFade {
+  0%, 75% {
+    opacity: 1;
+    visibility: visible;
+  }
+  95% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-100%);
+    display: none;
+  }
+}
+
+#kestrel-loader {
+  animation: loaderFallbackFade 2s forwards;
+}
+
 /* Custom blue cursor (the visitor's real pointer) */
 @media (hover: hover) and (pointer: fine) {
   html {

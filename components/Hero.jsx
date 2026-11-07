@@ -36,7 +36,36 @@ export default function Hero({ onOpenModal }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [lastExecuted, setLastExecuted] = useState(null)
   const [isFocused, setIsFocused] = useState(false)
+  const [isRevealed, setIsRevealed] = useState(false)
   const inputRef = useRef(null)
+
+  // Listen for loader completion or session restore
+  useEffect(() => {
+    let alreadySkipped = false
+    try {
+      alreadySkipped =
+        document.documentElement.classList.contains('skip-loader') ||
+        Boolean(sessionStorage.getItem('loaded') || sessionStorage.loaded)
+    } catch (e) {}
+
+    if (alreadySkipped) {
+      setIsRevealed(true)
+      return
+    }
+
+    const handleReveal = () => setIsRevealed(true)
+    window.addEventListener('kestrel:revealed', handleReveal)
+
+    // Fallback: reveal hero anyway if event was missed or delayed
+    const fallbackTimer = setTimeout(() => {
+      setIsRevealed(true)
+    }, 1250)
+
+    return () => {
+      window.removeEventListener('kestrel:revealed', handleReveal)
+      clearTimeout(fallbackTimer)
+    }
+  }, [])
 
   const categories = ['All', 'Actions', 'Engineering', 'Ship', 'Sync']
 
@@ -122,9 +151,9 @@ export default function Hero({ onOpenModal }) {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Announcement Pill */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-line bg-card/70 backdrop-blur-md shadow-xs hover:border-accent/40 transition-colors mb-6 cursor-pointer"
           onClick={() => {
             const el = document.querySelector('#changelog')
@@ -140,9 +169,9 @@ export default function Hero({ onOpenModal }) {
 
         {/* Hero Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+          transition={{ duration: 0.5, delay: 0.08, ease: 'easeOut' }}
           className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-fg text-balance leading-[1.08]"
         >
           Plan, build, and ship at the speed of thought.
@@ -150,9 +179,9 @@ export default function Hero({ onOpenModal }) {
 
         {/* Subheadline */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+          transition={{ duration: 0.5, delay: 0.16, ease: 'easeOut' }}
           className="mt-6 text-lg sm:text-xl text-muted max-w-2xl mx-auto font-normal text-balance"
         >
           The unified keyboard command center for high-velocity product teams.
@@ -161,9 +190,9 @@ export default function Hero({ onOpenModal }) {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+          transition={{ duration: 0.5, delay: 0.24, ease: 'easeOut' }}
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5"
         >
           <button
@@ -208,8 +237,8 @@ export default function Hero({ onOpenModal }) {
         <motion.div
           id="hero-demo"
           initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+          transition={{ duration: 0.6, delay: 0.32, ease: 'easeOut' }}
           className="mt-12 text-left max-w-3xl mx-auto rounded-2xl border border-line-strong bg-card/90 backdrop-blur-xl shadow-2xl p-4 sm:p-5 relative overflow-hidden"
         >
           {/* Top Window Header */}
