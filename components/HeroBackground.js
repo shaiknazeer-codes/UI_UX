@@ -39,7 +39,7 @@ export default function HeroBackground() {
   return (
     <div
       aria-hidden="true"
-      className="absolute top-0 left-0 right-0 h-[780px] overflow-hidden pointer-events-none select-none -z-10"
+      className="absolute top-0 left-0 right-0 h-[780px] overflow-hidden pointer-events-none select-none z-0"
       style={{ backgroundColor: 'var(--bg)' }}
     >
       {/* Ambient Center Glow directly behind headline */}

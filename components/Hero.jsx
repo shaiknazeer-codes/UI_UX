@@ -131,11 +131,11 @@ export default function Hero({ onOpenModal }) {
   }
 
   return (
-    <section id="hero" className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+    <section id="hero" className="relative isolate pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
       {/* Raycast-inspired Layered Animated Background */}
       <HeroBackground />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Announcement Pill */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
