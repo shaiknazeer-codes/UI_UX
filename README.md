@@ -35,6 +35,7 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
 - **Theme Persistence**: Synced to `localStorage` and toggled via the persistent navbar button.
 
 ### 3. Motion & Micro-Interactions
+- **Multiplayer Collaboration Cursor**: A Framer-style animated teammate cursor ("Maya") glides across percentage-based waypoints in the hero demo area, pausing with expanding click ripples and triggering live hover states on the command palette rows.
 - **Cursor Spotlight**: Bento grid cards calculate dynamic radial gradients based on real-time mouse coordinates `(mouseX, mouseY)` for a glowing spotlight effect.
 - **Sliding Tab Indicators**: Framer-style `layoutId="activeWorkflowIndicator"` seamlessly animates pill transitions across Plan, Build, and Ship tabs.
 - **Reduced Motion Friendly**: Motion components respect user accessibility preferences (`prefers-reduced-motion`).
