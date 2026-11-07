@@ -133,3 +133,4 @@ export const shipData = {
     { name: 'Vulnerability Scan (Snyk)', status: 'Passed', time: '9s' }
   ]
 }
+

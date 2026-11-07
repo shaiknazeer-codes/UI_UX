@@ -36,3 +36,4 @@ export const testimonials = [
     highlight: '38% cycle time reduction'
   }
 ]
+

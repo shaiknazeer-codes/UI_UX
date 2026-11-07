@@ -70,3 +70,4 @@ export const quickChords = [
   { combo: 'B', label: 'Branch Switcher', desc: 'Checkout git worktree' },
   { combo: '⌘ + D', label: 'Instant Deploy', desc: 'Trigger canary pipeline' }
 ]
+

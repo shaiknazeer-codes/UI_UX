@@ -223,3 +223,4 @@ export default function GetStartedModal({ isOpen, onClose }) {
     </AnimatePresence>
   )
 }
+

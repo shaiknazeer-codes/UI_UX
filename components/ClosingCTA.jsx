@@ -47,3 +47,4 @@ export default function ClosingCTA({ onOpenModal }) {
     </section>
   )
 }
+

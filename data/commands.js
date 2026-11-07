@@ -63,3 +63,4 @@ export const heroCommands = [
     actionText: 'Switched visual color mode'
   }
 ]
+

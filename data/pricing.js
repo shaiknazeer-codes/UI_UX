@@ -59,3 +59,4 @@ export const pricingTiers = [
     hint: 'Custom contracts & invoicing'
   }
 ]
+

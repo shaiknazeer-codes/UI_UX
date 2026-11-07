@@ -349,3 +349,4 @@ export default function WorkflowTabs({ onOpenModal }) {
     </section>
   )
 }
+

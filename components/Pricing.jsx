@@ -149,3 +149,4 @@ export default function Pricing({ onOpenModal }) {
     </section>
   )
 }
+

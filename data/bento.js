@@ -54,3 +54,4 @@ export const bentoFeatures = [
     type: 'offline'
   }
 ]
+

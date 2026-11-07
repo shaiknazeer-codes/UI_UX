@@ -51,3 +51,4 @@ if (!fs.existsSync(pubDir)) fs.mkdirSync(pubDir, { recursive: true })
 fs.writeFileSync(path.join(pubDir, 'favicon.ico'), ico)
 fs.writeFileSync(path.resolve('app/favicon.ico'), ico)
 console.log('Successfully generated valid favicon.ico in public/ and app/')
+
