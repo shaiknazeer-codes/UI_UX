@@ -93,78 +93,78 @@ export default function HeroBackground() {
 
             {/* 3D Louvre Edge Bevel Gradient (Light Edge Highlight) */}
             <linearGradient id="slat-bevel-dark" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
-              <stop offset="12%" stopColor="#ffffff" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
+              <stop offset="12%" stopColor="#ffffff" stopOpacity="0.06" />
               <stop offset="85%" stopColor="#000000" stopOpacity="0" />
-              <stop offset="100%" stopColor="#000000" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0.4" />
             </linearGradient>
 
             <linearGradient id="slat-bevel-light" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.65" />
-              <stop offset="15%" stopColor="#ffffff" stopOpacity="0.12" />
-              <stop offset="85%" stopColor="#4c0519" stopOpacity="0" />
-              <stop offset="100%" stopColor="#2a0812" stopOpacity="0.12" />
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.7" />
+              <stop offset="15%" stopColor="#ffffff" stopOpacity="0.15" />
+              <stop offset="85%" stopColor="#1e3a8a" stopOpacity="0" />
+              <stop offset="100%" stopColor="#172554" stopOpacity="0.15" />
             </linearGradient>
 
-            {/* Dark Theme Longitudinal Gradients (Fiery Crimson / Ruby Red) */}
+            {/* Dark Theme Longitudinal Gradients (Electric Blue / Sapphire) */}
             <linearGradient id="slat-dark-center" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#4c0519" stopOpacity="0" />
-              <stop offset="8%" stopColor="#9f1239" stopOpacity="0.3" />
-              <stop offset="25%" stopColor="#e11d48" stopOpacity="0.95" />
-              <stop offset="50%" stopColor="#fda4af" stopOpacity="1" />
-              <stop offset="75%" stopColor="#e11d48" stopOpacity="0.95" />
-              <stop offset="92%" stopColor="#9f1239" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#4c0519" stopOpacity="0" />
+              <stop offset="0%" stopColor="#0f172a" stopOpacity="0" />
+              <stop offset="8%" stopColor="#1e40af" stopOpacity="0.35" />
+              <stop offset="25%" stopColor="#2563eb" stopOpacity="0.95" />
+              <stop offset="50%" stopColor="#93c5fd" stopOpacity="1" />
+              <stop offset="75%" stopColor="#2563eb" stopOpacity="0.95" />
+              <stop offset="92%" stopColor="#1e40af" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#0f172a" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-dark-mid" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#4c0519" stopOpacity="0" />
-              <stop offset="10%" stopColor="#881337" stopOpacity="0.25" />
-              <stop offset="28%" stopColor="#be123c" stopOpacity="0.9" />
-              <stop offset="50%" stopColor="#fb7185" stopOpacity="0.95" />
-              <stop offset="72%" stopColor="#be123c" stopOpacity="0.9" />
-              <stop offset="90%" stopColor="#881337" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#4c0519" stopOpacity="0" />
+              <stop offset="0%" stopColor="#08080b" stopOpacity="0" />
+              <stop offset="10%" stopColor="#1d4ed8" stopOpacity="0.3" />
+              <stop offset="28%" stopColor="#3b82f6" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.95" />
+              <stop offset="72%" stopColor="#3b82f6" stopOpacity="0.9" />
+              <stop offset="90%" stopColor="#1d4ed8" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#08080b" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-dark-outer" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#2a0812" stopOpacity="0" />
-              <stop offset="15%" stopColor="#4c0519" stopOpacity="0.2" />
-              <stop offset="35%" stopColor="#9f1239" stopOpacity="0.75" />
-              <stop offset="50%" stopColor="#e11d48" stopOpacity="0.8" />
-              <stop offset="65%" stopColor="#9f1239" stopOpacity="0.75" />
-              <stop offset="85%" stopColor="#4c0519" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#2a0812" stopOpacity="0" />
+              <stop offset="0%" stopColor="#08080b" stopOpacity="0" />
+              <stop offset="15%" stopColor="#1e3a8a" stopOpacity="0.25" />
+              <stop offset="35%" stopColor="#2563eb" stopOpacity="0.75" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.8" />
+              <stop offset="65%" stopColor="#2563eb" stopOpacity="0.75" />
+              <stop offset="85%" stopColor="#1e3a8a" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#08080b" stopOpacity="0" />
             </linearGradient>
 
-            {/* Light Theme Longitudinal Gradients (Frosted Rose / Coral Tints) */}
+            {/* Light Theme Longitudinal Gradients (Frosted Ice Blue / Sapphire Tints) */}
             <linearGradient id="slat-light-center" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#ffe4e6" stopOpacity="0" />
-              <stop offset="10%" stopColor="#fecdd3" stopOpacity="0.25" />
-              <stop offset="28%" stopColor="#fb7185" stopOpacity="0.55" />
-              <stop offset="50%" stopColor="#e11d48" stopOpacity="0.7" />
-              <stop offset="72%" stopColor="#fb7185" stopOpacity="0.55" />
-              <stop offset="90%" stopColor="#fecdd3" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#ffe4e6" stopOpacity="0" />
+              <stop offset="0%" stopColor="#dbeafe" stopOpacity="0" />
+              <stop offset="10%" stopColor="#bfdbfe" stopOpacity="0.3" />
+              <stop offset="28%" stopColor="#60a5fa" stopOpacity="0.6" />
+              <stop offset="50%" stopColor="#2563eb" stopOpacity="0.75" />
+              <stop offset="72%" stopColor="#60a5fa" stopOpacity="0.6" />
+              <stop offset="90%" stopColor="#bfdbfe" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#dbeafe" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-light-mid" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#fff1f2" stopOpacity="0" />
-              <stop offset="12%" stopColor="#fecdd3" stopOpacity="0.2" />
-              <stop offset="32%" stopColor="#fb7185" stopOpacity="0.45" />
-              <stop offset="50%" stopColor="#e11d48" stopOpacity="0.6" />
-              <stop offset="68%" stopColor="#fb7185" stopOpacity="0.45" />
-              <stop offset="88%" stopColor="#fecdd3" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#fff1f2" stopOpacity="0" />
+              <stop offset="0%" stopColor="#eff6ff" stopOpacity="0" />
+              <stop offset="12%" stopColor="#bfdbfe" stopOpacity="0.25" />
+              <stop offset="32%" stopColor="#93c5fd" stopOpacity="0.5" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.65" />
+              <stop offset="68%" stopColor="#93c5fd" stopOpacity="0.5" />
+              <stop offset="88%" stopColor="#bfdbfe" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#eff6ff" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-light-outer" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#f8f9fa" stopOpacity="0" />
-              <stop offset="18%" stopColor="#fecdd3" stopOpacity="0.15" />
-              <stop offset="40%" stopColor="#fb7185" stopOpacity="0.35" />
-              <stop offset="50%" stopColor="#e11d48" stopOpacity="0.45" />
-              <stop offset="60%" stopColor="#fb7185" stopOpacity="0.35" />
-              <stop offset="82%" stopColor="#fecdd3" stopOpacity="0.1" />
+              <stop offset="18%" stopColor="#dbeafe" stopOpacity="0.2" />
+              <stop offset="40%" stopColor="#93c5fd" stopOpacity="0.4" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
+              <stop offset="60%" stopColor="#93c5fd" stopOpacity="0.4" />
+              <stop offset="82%" stopColor="#dbeafe" stopOpacity="0.15" />
               <stop offset="100%" stopColor="#f8f9fa" stopOpacity="0" />
             </linearGradient>
 

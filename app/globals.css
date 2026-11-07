@@ -11,7 +11,7 @@
   --accent-subtle: #eef2ff;
   --card-border: rgba(0, 0, 0, 0.08);
   --stripe: color-mix(in oklab, var(--accent) 7%, transparent);
-  --glow: rgba(59, 130, 246, 0.18);
+  --glow: rgba(59, 130, 246, 0.22);
   --grain: 0.03;
 }
 
@@ -26,7 +26,7 @@
   --accent-subtle: rgba(99, 102, 241, 0.14);
   --card-border: rgba(255, 255, 255, 0.08);
   --stripe: color-mix(in oklab, var(--accent) 12%, transparent);
-  --glow: rgba(99, 102, 241, 0.30);
+  --glow: rgba(37, 99, 235, 0.36);
   --grain: 0.05;
 }
 
