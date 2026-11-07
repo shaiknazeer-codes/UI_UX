@@ -9,9 +9,19 @@ import {
   Menu,
   X,
   Command,
+  Workflow,
+  Keyboard,
+  Layers,
   ArrowRight,
   Sparkles
 } from 'lucide-react'
+
+const dropdownIconMap = {
+  Command,
+  Workflow,
+  Keyboard,
+  Layers
+}
 
 export default function Navbar({ onOpenModal }) {
   const [isDark, setIsDark] = useState(false)
@@ -147,43 +157,58 @@ export default function Navbar({ onOpenModal }) {
               <div
                 role="menu"
                 aria-label="Product features"
-                className="absolute left-0 mt-2 w-80 rounded-xl bg-card border border-line p-2 shadow-xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                className="absolute left-0 mt-2 w-88 rounded-2xl bg-card border border-line p-2 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-1"
               >
-                {productDropdownItems.map((item, idx) => (
-                  <a
-                    key={item.title}
-                    ref={(el) => (dropdownItemsRef.current[idx] = el)}
-                    href={item.href}
-                    role="menuitem"
-                    tabIndex={0}
-                    onClick={() => setIsProductOpen(false)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Escape') {
-                        setIsProductOpen(false)
-                      }
-                    }}
-                    className={`flex items-start justify-between p-2.5 rounded-lg transition-colors group focus:outline-hidden ${
-                      activeDropdownIndex === idx
-                        ? 'bg-accent-subtle text-accent'
-                        : 'hover:bg-bg-muted text-fg'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{item.title}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-bg-muted text-muted">
-                          {item.tag}
-                        </span>
+                {productDropdownItems.map((item, idx) => {
+                  const IconComp = dropdownIconMap[item.icon] || Command
+                  const isKeyboardActive = activeDropdownIndex === idx
+
+                  return (
+                    <a
+                      key={item.title}
+                      ref={(el) => (dropdownItemsRef.current[idx] = el)}
+                      href={item.href}
+                      role="menuitem"
+                      tabIndex={0}
+                      onClick={() => setIsProductOpen(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Escape') {
+                          setIsProductOpen(false)
+                        }
+                      }}
+                      className={`flex items-start gap-3 p-3 rounded-xl border border-transparent transition-all group focus:outline-hidden ${
+                        item.theme.hoverBg
+                      } ${item.theme.hoverBorder} ${
+                        isKeyboardActive
+                          ? `${item.theme.activeBg} border-line shadow-xs`
+                          : 'hover:shadow-xs'
+                      }`}
+                    >
+                      {/* Vibrant Color Icon Container */}
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all shadow-2xs ${item.theme.iconBg}`}>
+                        <IconComp className="w-4 h-4" />
                       </div>
-                      <p className="text-xs text-muted mt-0.5 line-clamp-1">
-                        {item.desc}
-                      </p>
-                    </div>
-                    <kbd className="text-[11px] font-mono px-1.5 py-0.5 rounded-sm bg-bg-muted border border-line text-muted font-semibold ml-2">
-                      {item.hotkey}
-                    </kbd>
-                  </a>
-                ))}
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-semibold text-fg transition-colors ${item.theme.titleColor}`}>
+                            {item.title}
+                          </span>
+                          <span className={`text-[10px] font-mono font-medium px-1.5 py-0.2 rounded border transition-colors ${item.theme.tagColor}`}>
+                            {item.tag}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted mt-0.5 line-clamp-1 leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+
+                      <kbd className={`text-[11px] font-mono px-2 py-0.5 rounded bg-bg-muted border border-line text-muted font-semibold ml-1 shrink-0 transition-all ${item.theme.kbdColor}`}>
+                        {item.hotkey}
+                      </kbd>
+                    </a>
+                  )
+                })}
               </div>
             )}
           </div>
@@ -252,19 +277,29 @@ export default function Navbar({ onOpenModal }) {
             <p className="px-3 py-1 text-xs font-semibold uppercase text-muted tracking-wider">
               Product
             </p>
-            {productDropdownItems.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-fg hover:bg-bg-muted"
-              >
-                <span>{item.title}</span>
-                <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-bg-muted border border-line text-muted">
-                  {item.hotkey}
-                </kbd>
-              </a>
-            ))}
+            {productDropdownItems.map((item) => {
+              const IconComp = dropdownIconMap[item.icon] || Command
+              return (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex items-center justify-between p-2.5 rounded-xl text-sm transition-colors group ${item.theme.hoverBg}`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${item.theme.iconBg}`}>
+                      <IconComp className="w-3.5 h-3.5" />
+                    </div>
+                    <span className={`font-medium text-fg transition-colors ${item.theme.titleColor}`}>
+                      {item.title}
+                    </span>
+                  </div>
+                  <kbd className={`text-[10px] font-mono px-1.5 py-0.5 rounded border border-line text-muted ${item.theme.kbdColor}`}>
+                    {item.hotkey}
+                  </kbd>
+                </a>
+              )
+            })}
           </div>
 
           <div className="border-t border-line/50 pt-2 space-y-1">

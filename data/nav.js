@@ -13,28 +13,68 @@ export const productDropdownItems = [
     desc: 'Unified ⌘K engine for cross-tool orchestration',
     href: '#hero-demo',
     hotkey: '⌘K',
-    tag: 'Core'
+    tag: 'Core',
+    icon: 'Command',
+    theme: {
+      hoverBg: 'hover:bg-indigo-500/10',
+      activeBg: 'bg-indigo-500/15',
+      hoverBorder: 'hover:border-indigo-500/30',
+      titleColor: 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400',
+      iconBg: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white',
+      tagColor: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
+      kbdColor: 'group-hover:border-indigo-500/40 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'
+    }
   },
   {
     title: 'Workflow Engine',
     desc: 'Plan, build, and ship cycles with zero friction',
     href: '#workflows',
     hotkey: '⌘W',
-    tag: 'Popular'
+    tag: 'Popular',
+    icon: 'Workflow',
+    theme: {
+      hoverBg: 'hover:bg-purple-500/10',
+      activeBg: 'bg-purple-500/15',
+      hoverBorder: 'hover:border-purple-500/30',
+      titleColor: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
+      iconBg: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white',
+      tagColor: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30',
+      kbdColor: 'group-hover:border-purple-500/40 group-hover:text-purple-600 dark:group-hover:text-purple-400'
+    }
   },
   {
     title: 'Keyboard Matrix',
     desc: 'Muscle-memory bindings for every action',
     href: '#keyboard',
     hotkey: '⌥K',
-    tag: 'New'
+    tag: 'New',
+    icon: 'Keyboard',
+    theme: {
+      hoverBg: 'hover:bg-amber-500/10',
+      activeBg: 'bg-amber-500/15',
+      hoverBorder: 'hover:border-amber-500/30',
+      titleColor: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
+      iconBg: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 group-hover:bg-amber-600 group-hover:text-white',
+      tagColor: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30',
+      kbdColor: 'group-hover:border-amber-500/40 group-hover:text-amber-600 dark:group-hover:text-amber-400'
+    }
   },
   {
     title: 'Integration Mesh',
     desc: 'Deep bi-directional sync with Git & Figma',
     href: '#integrations',
     hotkey: '⇧I',
-    tag: 'Sync'
+    tag: 'Sync',
+    icon: 'Layers',
+    theme: {
+      hoverBg: 'hover:bg-emerald-500/10',
+      activeBg: 'bg-emerald-500/15',
+      hoverBorder: 'hover:border-emerald-500/30',
+      titleColor: 'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
+      iconBg: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white',
+      tagColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
+      kbdColor: 'group-hover:border-emerald-500/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-400'
+    }
   }
 ]
 
@@ -93,4 +133,3 @@ export const footerColumns = [
     ]
   }
 ]
-
