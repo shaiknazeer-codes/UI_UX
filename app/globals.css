@@ -10,11 +10,13 @@
   --accent-hover: #4f46e5;
   --accent-subtle: #eef2ff;
   --card-border: rgba(0, 0, 0, 0.08);
-  --glow: rgba(99, 102, 241, 0.18);
+  --stripe: color-mix(in oklab, var(--accent) 7%, transparent);
+  --glow: rgba(59, 130, 246, 0.18);
+  --grain: 0.03;
 }
 
 .dark {
-  --bg: #090a0f;
+  --bg: #08080b;
   --fg: #f8fafc;
   --muted: #94a3b8;
   --line: #1e2333;
@@ -23,7 +25,9 @@
   --accent-hover: #818cf8;
   --accent-subtle: rgba(99, 102, 241, 0.14);
   --card-border: rgba(255, 255, 255, 0.08);
-  --glow: rgba(99, 102, 241, 0.28);
+  --stripe: color-mix(in oklab, var(--accent) 12%, transparent);
+  --glow: rgba(99, 102, 241, 0.30);
+  --grain: 0.05;
 }
 
 @theme inline {

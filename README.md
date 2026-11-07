@@ -35,6 +35,14 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
 - **Theme Persistence**: Synced to `localStorage` and toggled via the persistent navbar button.
 
 ### 3. Motion & Micro-Interactions
+- **Raycast-Inspired Layered Hero Background (`components/HeroBackground.js`)**:
+  - **Layer 1 (Base)**: `var(--bg)` background canvas (`#08080b` in dark mode, `#f8f9fa` in light mode).
+  - **Layer 2 (Diagonal Stripes)**: `repeating-linear-gradient` at 115° with 2px lines every 30px using `--stripe`, masked with an inverted radial gradient fading toward borders and base.
+  - **Layer 3 (Light Beams)**: Three narrow skewed bars (`-20°`) with vertical gradients, pulsing in opacity and drifting across 12–16s loops inside a single GPU-blurred container (`filter: blur(28px)`).
+  - **Parallax Physics**: On desktop devices with fine pointers, smooth spring physics (`useSpring`) subtly shifts light beams up to 12px opposite cursor movement (disabled on touch devices).
+  - **Layer 4 (Radial Glow)**: Massive top-center radial gradient ellipse in theme `--glow` (30% accent in dark mode, 18% light blue in light mode).
+  - **Layer 5 (Film Grain)**: Procedural SVG `feTurbulence` noise overlay (`mix-blend-mode: overlay`) at `--grain` opacity (5% dark, 3% light) to prevent color banding.
+  - **Layer 6 (Bottom Fade)**: Seamless linear gradient fade into `var(--bg)` over the bottom 25% height.
 - **Branded Intro Loader (`components/Loader.js`)**:
   - Displays a 1.4s intro overlay on the initial session visit: center logo scale-in (0–0.3s), staggered wordmark reveal (0.2–0.7s), and an accent progress line fill (0–1.1s) before sliding up (`translateY(-100%)`).
   - Connects to the Hero section via custom event `kestrel:revealed` to trigger staggered entrance animations.

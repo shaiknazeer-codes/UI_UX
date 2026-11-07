@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import HeroBackground from '@/components/HeroBackground'
 import { heroCommands } from '@/data/commands'
 import {
   Command,
@@ -131,22 +132,8 @@ export default function Hero({ onOpenModal }) {
 
   return (
     <section id="hero" className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
-      {/* Animated Multi-stop Glow Backdrop */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center -z-10 overflow-hidden">
-        <motion.div
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.35, 0.55, 0.35]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-          className="w-[600px] h-[350px] md:w-[900px] md:h-[450px] rounded-full bg-gradient-to-tr from-indigo-500/25 via-purple-500/20 to-pink-500/15 blur-3xl opacity-50"
-        />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[260px] bg-indigo-600/10 blur-[110px] rounded-full" />
-      </div>
+      {/* Raycast-inspired Layered Animated Background */}
+      <HeroBackground />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Announcement Pill */}
