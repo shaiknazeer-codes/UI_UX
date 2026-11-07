@@ -11,8 +11,6 @@
   --accent-subtle: #eef2ff;
   --card-border: rgba(0, 0, 0, 0.08);
   --glow: rgba(99, 102, 241, 0.18);
-  --cursor-blue: #2563eb;
-  --cursor-svg: #3b82f6;
 }
 
 .dark {
@@ -26,8 +24,6 @@
   --accent-subtle: rgba(99, 102, 241, 0.14);
   --card-border: rgba(255, 255, 255, 0.08);
   --glow: rgba(99, 102, 241, 0.28);
-  --cursor-blue: #2563eb;
-  --cursor-svg: #60a5fa;
 }
 
 @theme inline {
