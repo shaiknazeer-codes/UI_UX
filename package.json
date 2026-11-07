@@ -1,0 +1,23 @@
+{
+  "name": "kestrel-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "framer-motion": "^12.4.7",
+    "lucide-react": "^1.16.0",
+    "next": "^15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.9",
+    "postcss": "^8.5.3",
+    "puppeteer-core": "^25.16.0",
+    "tailwindcss": "^4.0.9"
+  }
+}
