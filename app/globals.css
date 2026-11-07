@@ -83,3 +83,23 @@ body {
   outline-offset: 2px;
 }
 
+/* Custom blue cursor (the visitor's real pointer) */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M4 2l16 9-7 2-3 7z' fill='%232563eb' stroke='white' stroke-width='1.5' stroke-linejoin='round'/></svg>") 4 2, auto;
+  }
+
+  a, button, [role="button"], [role="tab"], [role="switch"], summary, label[for] {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M4 2l16 9-7 2-3 7z' fill='%231d4ed8' stroke='white' stroke-width='1.5' stroke-linejoin='round'/></svg>") 4 2, pointer;
+  }
+
+  input, textarea {
+    cursor: text;
+  }
+
+  button:disabled, input:disabled, [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+

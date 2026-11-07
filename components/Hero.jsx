@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { heroCommands } from '@/data/commands'
+import TeammateCursor from '@/components/TeammateCursor'
 import {
   Command,
   Search,
@@ -34,6 +35,7 @@ export default function Hero({ onOpenModal }) {
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [teammateRowIndex, setTeammateRowIndex] = useState(-1)
   const [lastExecuted, setLastExecuted] = useState(null)
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef(null)
@@ -212,6 +214,9 @@ export default function Hero({ onOpenModal }) {
           transition={{ duration: 0.6, delay: 0.35 }}
           className="mt-12 text-left max-w-3xl mx-auto rounded-2xl border border-line-strong bg-card/90 backdrop-blur-xl shadow-2xl p-4 sm:p-5 relative overflow-hidden"
         >
+          {/* Animated Multiplayer Teammate Cursor (Coral "Maya") */}
+          <TeammateCursor onHoverRow={setTeammateRowIndex} />
+
           {/* Top Window Header */}
           <div className="flex items-center justify-between pb-3 border-b border-line mb-3">
             <div className="flex items-center gap-2">
@@ -310,6 +315,7 @@ export default function Hero({ onOpenModal }) {
               filteredCommands.map((cmd, idx) => {
                 const IconComponent = iconMap[cmd.icon] || Command
                 const isSelected = selectedIndex === idx
+                const isTeammateHovered = teammateRowIndex === idx
 
                 return (
                   <div
@@ -321,15 +327,21 @@ export default function Hero({ onOpenModal }) {
                       executeCommand(cmd)
                     }}
                     onMouseEnter={() => setSelectedIndex(idx)}
-                    className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-colors relative ${
                       isSelected
-                        ? 'bg-accent-subtle text-accent'
+                        ? 'bg-accent-subtle text-accent ring-1 ring-accent/30'
+                        : isTeammateHovered
+                        ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 ring-1 ring-orange-500/30'
                         : 'hover:bg-bg-muted text-fg'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`p-1.5 rounded-md ${
-                        isSelected ? 'bg-accent text-white' : 'bg-bg-muted text-muted'
+                      <div className={`p-1.5 rounded-md transition-colors ${
+                        isSelected
+                          ? 'bg-accent text-white'
+                          : isTeammateHovered
+                          ? 'bg-orange-500 text-white'
+                          : 'bg-bg-muted text-muted'
                       }`}>
                         <IconComponent className="w-4 h-4" />
                       </div>
