@@ -1,24 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { animate, useReducedMotion } from 'framer-motion'
 import { Command } from 'lucide-react'
 
 export default function Loader() {
   const shouldReduceMotion = useReducedMotion()
-  const [phase, setPhase] = useState(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        if (
-          document.documentElement.classList.contains('skip-loader') ||
-          Boolean(sessionStorage.getItem('loaded') || sessionStorage.loaded)
-        ) {
-          return 'done'
-        }
-      } catch (e) {}
-    }
-    return 'active'
-  })
+  const [phase, setPhase] = useState('active')
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     // Check if loader should be skipped for this session
@@ -39,7 +28,7 @@ export default function Loader() {
     document.body.style.overflow = 'hidden'
 
     if (shouldReduceMotion) {
-      // Accessible reduced-motion fallback: simple 200ms fade
+      // Under prefers-reduced-motion, skip counting and sliding, show 200ms fade out
       const timer = setTimeout(() => {
         setPhase('done')
         document.body.style.overflow = ''
@@ -51,97 +40,112 @@ export default function Loader() {
       return () => clearTimeout(timer)
     }
 
-    // Timed sequence:
-    // 0 to 1.1s: Progress line fills, logo and wordmark animate
-    // 1.1s: Overlay slides up (translateY to -100%)
-    // 1.15s: Trigger hero reveal stagger
-    // 1.4s: Clean finish and unmount
-    const leaveTimer = setTimeout(() => {
-      setPhase('leaving')
-      document.body.style.overflow = ''
-      window.dispatchEvent(new CustomEvent('kestrel:revealed'))
-    }, 1100)
+    let holdTimer = null
+    let doneTimer = null
 
-    const doneTimer = setTimeout(() => {
-      setPhase('done')
-      try {
-        sessionStorage.setItem('loaded', 'true')
-      } catch (e) {}
-    }, 1450)
+    // Count from 0 to 100 over 1.8s with smooth easeInOut curve
+    const controls = animate(0, 100, {
+      duration: 1.8,
+      ease: [0.65, 0, 0.35, 1],
+      onUpdate: (latest) => {
+        setCount(Math.round(latest))
+      },
+      onComplete: () => {
+        // Hold 250ms at 100%
+        holdTimer = setTimeout(() => {
+          setPhase('opening')
+          document.body.style.overflow = ''
+          // Dispatch event to reveal hero with 80ms stagger
+          window.dispatchEvent(new CustomEvent('kestrel:revealed'))
+
+          // Slide away duration is 0.7s, then remove overlay from DOM
+          doneTimer = setTimeout(() => {
+            setPhase('done')
+            try {
+              sessionStorage.setItem('loaded', 'true')
+            } catch (e) {}
+          }, 700)
+        }, 250)
+      }
+    })
 
     return () => {
-      clearTimeout(leaveTimer)
-      clearTimeout(doneTimer)
+      controls.stop()
+      if (holdTimer) clearTimeout(holdTimer)
+      if (doneTimer) clearTimeout(doneTimer)
       document.body.style.overflow = ''
     }
   }, [shouldReduceMotion])
 
   if (phase === 'done') return null
 
-  const isLeaving = phase === 'leaving'
+  const isOpening = phase === 'opening'
 
   return (
     <div
       id="kestrel-loader"
       role="status"
       aria-label="Loading Kestrel"
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none"
-      style={{
-        backgroundColor: 'var(--bg)',
-        transform: isLeaving ? 'translateY(-100%)' : 'translateY(0%)',
-        transition: shouldReduceMotion
-          ? 'opacity 0.2s ease'
-          : 'transform 0.45s cubic-bezier(0.65, 0, 0.35, 1)',
-        opacity: shouldReduceMotion && isLeaving ? 0 : 1
-      }}
+      className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden"
     >
-      <div className="flex flex-col items-center">
-        <div className="flex items-center gap-3">
-          {/* Logo mark: scales and fades in at center (0 to 0.3s) */}
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1 } : { scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center font-bold shadow-lg shadow-indigo-500/25"
-          >
-            <Command className="w-5 h-5" />
-          </motion.div>
+      {/* Top half panel: slides up on reveal */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[calc(50%+1px)] flex flex-col justify-start p-6 sm:p-10 md:p-14 overflow-hidden"
+        style={{
+          backgroundColor: 'var(--bg)',
+          transform: isOpening ? 'translateY(-100%)' : 'translateY(0%)',
+          transition: shouldReduceMotion
+            ? 'opacity 0.2s ease'
+            : 'transform 0.7s cubic-bezier(0.76, 0, 0.24, 1)',
+          opacity: shouldReduceMotion && isOpening ? 0 : 1
+        }}
+      >
+        {/* Kestrel logo mark and wordmark small at the top-left */}
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-bold shadow-md shadow-indigo-500/25">
+            <Command className="w-4 h-4" />
+          </div>
+          <span className="font-bold tracking-tight text-lg text-fg">Kestrel</span>
+        </div>
+      </div>
 
-          {/* Wordmark "Kestrel": letters rising in with 30ms stagger (0.2 to 0.7s) */}
-          <div className="flex items-center overflow-hidden">
-            {'Kestrel'.split('').map((char, i) => (
-              <motion.span
-                key={i}
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={
-                  shouldReduceMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: 0.3,
-                        delay: 0.2 + i * 0.03,
-                        ease: 'easeOut'
-                      }
-                }
-                className="font-bold tracking-tight text-2xl text-fg inline-block"
-              >
-                {char}
-              </motion.span>
-            ))}
+      {/* Bottom half panel: slides down on reveal */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[calc(50%+1px)] flex flex-col justify-end p-6 sm:p-10 md:p-14 pb-8 sm:pb-12 overflow-hidden"
+        style={{
+          backgroundColor: 'var(--bg)',
+          transform: isOpening ? 'translateY(100%)' : 'translateY(0%)',
+          transition: shouldReduceMotion
+            ? 'opacity 0.2s ease'
+            : 'transform 0.7s cubic-bezier(0.76, 0, 0.24, 1)',
+          opacity: shouldReduceMotion && isOpening ? 0 : 1
+        }}
+      >
+        {/* Large percentage at bottom-left */}
+        <div className="mb-2 sm:mb-4">
+          <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-muted mb-1 sm:mb-2 font-medium">
+            Loading workspace
+          </div>
+          <div
+            aria-hidden="true"
+            className="font-semibold tracking-tighter tabular-nums text-fg flex items-baseline select-none"
+            style={{
+              fontSize: 'clamp(5rem, 18vw, 14rem)',
+              lineHeight: 0.88
+            }}
+          >
+            <span>{count}</span>
+            <span className="text-accent text-[0.42em] ml-1.5 sm:ml-3 font-normal select-none">
+              %
+            </span>
           </div>
         </div>
 
-        {/* Thin progress line under logo: fills 0 to 100% (0 to 1.1s) */}
-        <div className="mt-5 w-48 h-0.5 rounded-full bg-line overflow-hidden">
-          <motion.div
-            initial={shouldReduceMotion ? { width: '100%' } : { width: '0%' }}
-            animate={{ width: '100%' }}
-            transition={
-              shouldReduceMotion
-                ? { duration: 0 }
-                : { duration: 1.1, ease: 'easeInOut' }
-            }
-            className="h-full bg-accent rounded-full"
+        {/* Thin 2px progress line across the bottom that fills with the count, in accent blue */}
+        <div className="absolute inset-x-0 bottom-0 h-[2px] bg-line/20 overflow-hidden">
+          <div
+            className="h-full bg-accent transition-[width] duration-75 ease-out"
+            style={{ width: `${count}%` }}
           />
         </div>
       </div>

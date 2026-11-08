@@ -43,11 +43,13 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
   - **Layer 4 (Radial Glow)**: Massive top-center radial gradient ellipse in theme `--glow` (30% accent in dark mode, 18% light blue in light mode).
   - **Layer 5 (Film Grain)**: Procedural SVG `feTurbulence` noise overlay (`mix-blend-mode: overlay`) at `--grain` opacity (5% dark, 3% light) to prevent color banding.
   - **Layer 6 (Bottom Fade)**: Seamless linear gradient fade into `var(--bg)` over the bottom 25% height.
-- **Branded Intro Loader (`components/Loader.js`)**:
-  - Displays a 1.4s intro overlay on the initial session visit: center logo scale-in (0–0.3s), staggered wordmark reveal (0.2–0.7s), and an accent progress line fill (0–1.1s) before sliding up (`translateY(-100%)`).
-  - Connects to the Hero section via custom event `kestrel:revealed` to trigger staggered entrance animations.
-  - Persisted per session via `sessionStorage.loaded` and an inline `<head>` check that attaches `.skip-loader` to `<html>` to ensure zero FOUC on subsequent navigation.
-  - Includes a CSS-only `@keyframes loaderFallbackFade` (2s) guaranteeing the overlay never blocks content if JS is slow, plus an accessible 200ms simple fade under `prefers-reduced-motion`.
+- **Full-Screen 0 to 100% Counter Loader with Split Shutter Reveal (`components/Loader.js`)**:
+  - **Counter**: Counts from 0 to 100% over 1.8s using Framer Motion's `animate(0, 100, { duration: 1.8, ease: [0.65, 0, 0.35, 1] })`. Displays massive typographic percentage (`clamp(5rem, 18vw, 14rem)` in `var(--fg)` with accent blue `%`), tabular figures to prevent jitter, and a "Loading workspace" label at the bottom-left.
+  - **Branded Layout**: Small Kestrel logo mark and wordmark positioned at the top-left, with a 2px accent blue progress line across the bottom edge.
+  - **Split Shutter Reveal**: When reaching 100%, holds for 250ms, then splits into two equal halves (top sliding `translateY(-100%)`, bottom sliding `translateY(100%)` over 0.7s with ease `[0.76, 0, 0.24, 1]`) to reveal the website like a cinematic shutter.
+  - **Hero Choreography**: Dispatches `kestrel:revealed` to trigger the hero section's staggered upward fade-in with an exact 80ms stagger across pill, headline, subheadline, CTAs, and ⌘K palette.
+  - **Session Persistence**: Checked synchronously in `<head>` to attach `.skip-loader`, ensuring zero flash on repeat visits in the same session.
+  - **Accessibility & Failsafes**: `role="status"` with `aria-label="Loading Kestrel"`, counter is `aria-hidden` to avoid 100 screen reader updates, 200ms fade on `prefers-reduced-motion`, and a 3s pure CSS fallback animation if JavaScript execution is delayed.
 - **Pure CSS Custom Blue Mouse Pointer**:
   - Implemented in `app/globals.css` with `@media (hover: hover) and (pointer: fine)`.
   - Default pointer: 24px blue arrow SVG (`#2563eb`) with white border and exact tip hotspot `(4 2)`.

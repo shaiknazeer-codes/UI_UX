@@ -94,25 +94,23 @@ body {
 
 /* CSS-only fallback: guarantees the loader overlay never blocks the page if JS fails or is slow */
 @keyframes loaderFallbackFade {
-  0%, 75% {
+  0%, 88% {
     opacity: 1;
     visibility: visible;
   }
-  95% {
+  98% {
     opacity: 0;
-    transform: translateY(-100%);
   }
   100% {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-100%);
     display: none;
   }
 }
 
 #kestrel-loader {
-  animation: loaderFallbackFade 2s forwards;
+  animation: loaderFallbackFade 3s forwards;
 }
 
 /* Custom blue cursor (the visitor's real pointer) */
