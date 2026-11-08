@@ -57,7 +57,16 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
   - Interactive controls (`a`, `button`, tabs, switches): 28px blue arrow SVG (`#1d4ed8`).
   - Inputs retain native text caret; disabled items retain `not-allowed`.
 - **Cursor Spotlight**: Bento grid cards calculate dynamic radial gradients based on real-time mouse coordinates `(mouseX, mouseY)` for a glowing spotlight effect.
-- **Sliding Tab Indicators**: Framer-style `layoutId="activeWorkflowIndicator"` seamlessly animates pill transitions across Plan, Build, and Ship tabs.
+- **Horizontal Scroll Workflow Section (`components/HorizontalScroll.js`)**:
+  - **Native Sticky Scroll**: Replaces static tabs with a pinned 300vh section where content slides horizontally (Plan -> Build -> Ship) as the user scrolls naturally without hijacking wheel/touch events.
+  - **Motion & Easing**: Track `x` transforms from `0%` to `-66.666%` across progress 0.0 to 0.90 with `useSpring` (stiffness: 120, damping: 30, mass: 0.3), holding still for the final 10% before releasing cleanly to vertical scrolling.
+  - **Depth & Parallax**: Headlines move with differential parallax relative to the panels; entering pages scale and fade smoothly from 0.96 to 1.
+  - **Original Fictional Panels**:
+    - **Plan**: Interactive issue list with status chips (`In Progress`, `In Review`, `Todo`, `Done`), sprint velocity badges, and keyboard navigation.
+    - **Build**: Roadmap timeline with animated progress bars for Q3 engineering tracks growing dynamically as the page enters.
+    - **Ship**: Real-time syntax diff viewer (`packages/core/multiplexer.ts`) with an animated "Approved by @sarah-lin" banner and interactive canary deployment trigger.
+  - **Navigation & Indicators**: Active stage counter (`01 / 03`), bottom accent progress bar, and clickable top stage tabs (`role="tablist"` / `aria-selected`) with smooth window scroll jumping to exact stage positions.
+  - **Responsive & A11y Fallback**: Below 768px (and for `prefers-reduced-motion`), smoothly degrades to a clean vertical stack with zero horizontal overflow.
 - **Product Navigation**: Dropdown items feature distinctive color badges on hover (Indigo for Command Center, Purple for Workflow Engine, Amber for Keyboard Matrix, Emerald for Integration Mesh).
 - **Reduced Motion Friendly**: Motion components respect user accessibility preferences (`prefers-reduced-motion`).
 

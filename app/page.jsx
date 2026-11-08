@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import SocialProof from '@/components/SocialProof'
 import BentoGrid from '@/components/BentoGrid'
-import WorkflowTabs from '@/components/WorkflowTabs'
+import HorizontalScroll from '@/components/HorizontalScroll'
 import KeyboardSection from '@/components/KeyboardSection'
 import IntegrationsGrid from '@/components/IntegrationsGrid'
 import Changelog from '@/components/Changelog'
@@ -37,8 +37,8 @@ export default function Home() {
         {/* 4. Feature Bento Grid */}
         <BentoGrid />
 
-        {/* 5. Workflow Tabs (Plan / Build / Ship) */}
-        <WorkflowTabs onOpenModal={handleOpenModal} />
+        {/* 5. Horizontal Scroll Workflow (Plan / Build / Ship) */}
+        <HorizontalScroll onOpenModal={handleOpenModal} />
 
         {/* 6. Keyboard Interactive Section */}
         <KeyboardSection />
