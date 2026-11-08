@@ -92,6 +92,15 @@ body {
   display: none !important;
 }
 
+@keyframes kestrelOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* CSS-only fallback: guarantees the loader overlay never blocks the page if JS fails or is slow */
 @keyframes loaderFallbackFade {
   0%, 88% {

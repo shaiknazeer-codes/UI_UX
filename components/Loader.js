@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { animate, useReducedMotion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Command } from 'lucide-react'
 
 export default function Loader() {
   const shouldReduceMotion = useReducedMotion()
   const [phase, setPhase] = useState('active')
-  const [count, setCount] = useState(0)
 
   useEffect(() => {
     // Check if loader should be skipped for this session
@@ -28,7 +27,7 @@ export default function Loader() {
     document.body.style.overflow = 'hidden'
 
     if (shouldReduceMotion) {
-      // Under prefers-reduced-motion, skip counting and sliding, show 200ms fade out
+      // Under prefers-reduced-motion, show dot static and use 200ms fade as exit
       const timer = setTimeout(() => {
         setPhase('done')
         document.body.style.overflow = ''
@@ -40,38 +39,54 @@ export default function Loader() {
       return () => clearTimeout(timer)
     }
 
-    let holdTimer = null
+    const minTime = 1600
+    const maxTime = 2500
+    const startTime = Date.now()
+
+    let hasLoaded =
+      typeof document !== 'undefined' && document.readyState === 'complete'
+
+    const handleWindowLoad = () => {
+      hasLoaded = true
+    }
+
+    if (!hasLoaded) {
+      window.addEventListener('load', handleWindowLoad, { once: true })
+    }
+
+    let slideTimer = null
     let doneTimer = null
 
-    // Count from 0 to 100 over 1.8s with smooth easeInOut curve
-    const controls = animate(0, 100, {
-      duration: 1.8,
-      ease: [0.65, 0, 0.35, 1],
-      onUpdate: (latest) => {
-        setCount(Math.round(latest))
-      },
-      onComplete: () => {
-        // Hold 250ms at 100%
-        holdTimer = setTimeout(() => {
-          setPhase('opening')
+    // Check when to close: at least 1.6s, on window load or 2.5s at the latest
+    const checkInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      if ((hasLoaded && elapsed >= minTime) || elapsed >= maxTime) {
+        clearInterval(checkInterval)
+
+        // Step 1: Elements exit (dot stops, track shrinks & fades, logo scales to 1.08 & fades)
+        setPhase('exiting-elements')
+
+        // Step 2: Overlay slides up and out to reveal the page
+        slideTimer = setTimeout(() => {
+          setPhase('sliding-out')
           document.body.style.overflow = ''
-          // Dispatch event to reveal hero with 80ms stagger
           window.dispatchEvent(new CustomEvent('kestrel:revealed'))
 
-          // Slide away duration is 0.7s, then remove overlay from DOM
+          // Step 3: Remove from DOM after 0.7s slide finishes
           doneTimer = setTimeout(() => {
             setPhase('done')
             try {
               sessionStorage.setItem('loaded', 'true')
             } catch (e) {}
           }, 700)
-        }, 250)
+        }, 220)
       }
-    })
+    }, 40)
 
     return () => {
-      controls.stop()
-      if (holdTimer) clearTimeout(holdTimer)
+      clearInterval(checkInterval)
+      window.removeEventListener('load', handleWindowLoad)
+      if (slideTimer) clearTimeout(slideTimer)
       if (doneTimer) clearTimeout(doneTimer)
       document.body.style.overflow = ''
     }
@@ -79,75 +94,112 @@ export default function Loader() {
 
   if (phase === 'done') return null
 
-  const isOpening = phase === 'opening'
+  const isExitingElements = phase === 'exiting-elements'
+  const isSlidingOut = phase === 'sliding-out'
 
   return (
     <div
       id="kestrel-loader"
       role="status"
       aria-label="Loading Kestrel"
-      className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden"
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none overflow-hidden"
+      style={{
+        backgroundColor: 'var(--bg)',
+        transform: isSlidingOut ? 'translateY(-100%)' : 'translateY(0%)',
+        transition: shouldReduceMotion
+          ? 'opacity 0.2s ease'
+          : 'transform 0.7s cubic-bezier(0.76, 0, 0.24, 1)',
+        opacity: shouldReduceMotion && (isExitingElements || isSlidingOut) ? 0 : 1
+      }}
     >
-      {/* Top half panel: slides up on reveal */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[calc(50%+1px)] flex flex-col justify-start p-6 sm:p-10 md:p-14 overflow-hidden"
-        style={{
-          backgroundColor: 'var(--bg)',
-          transform: isOpening ? 'translateY(-100%)' : 'translateY(0%)',
-          transition: shouldReduceMotion
-            ? 'opacity 0.2s ease'
-            : 'transform 0.7s cubic-bezier(0.76, 0, 0.24, 1)',
-          opacity: shouldReduceMotion && isOpening ? 0 : 1
-        }}
-      >
-        {/* Kestrel logo mark and wordmark small at the top-left */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-bold shadow-md shadow-indigo-500/25">
-            <Command className="w-4 h-4" />
-          </div>
-          <span className="font-bold tracking-tight text-lg text-fg">Kestrel</span>
-        </div>
-      </div>
+      <div className="flex flex-col items-center">
+        {/* Orbit track and central logo mark container */}
+        <div className="relative w-[112px] h-[112px] flex items-center justify-center">
+          {/* Circular track: 1px border in var(--line), about 112px diameter */}
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={
+              isExitingElements || isSlidingOut
+                ? { opacity: 0, scale: 0.86 }
+                : { opacity: 1, scale: 1 }
+            }
+            transition={{
+              duration: isExitingElements || isSlidingOut ? 0.22 : 0.35,
+              delay: isExitingElements || isSlidingOut ? 0 : 0.15,
+              ease: 'easeOut'
+            }}
+            className="absolute inset-0 rounded-full border border-line pointer-events-none"
+          />
 
-      {/* Bottom half panel: slides down on reveal */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[calc(50%+1px)] flex flex-col justify-end p-6 sm:p-10 md:p-14 pb-8 sm:pb-12 overflow-hidden"
-        style={{
-          backgroundColor: 'var(--bg)',
-          transform: isOpening ? 'translateY(100%)' : 'translateY(0%)',
-          transition: shouldReduceMotion
-            ? 'opacity 0.2s ease'
-            : 'transform 0.7s cubic-bezier(0.76, 0, 0.24, 1)',
-          opacity: shouldReduceMotion && isOpening ? 0 : 1
-        }}
-      >
-        {/* Large percentage at bottom-left */}
-        <div className="mb-2 sm:mb-4">
-          <div className="text-xs sm:text-sm font-mono uppercase tracking-wider text-muted mb-1 sm:mb-2 font-medium">
-            Loading workspace
-          </div>
+          {/* Rotating container with dot and comet trail */}
           <div
             aria-hidden="true"
-            className="font-semibold tracking-tighter tabular-nums text-fg flex items-baseline select-none"
+            className="absolute inset-0 rounded-full pointer-events-none"
             style={{
-              fontSize: 'clamp(5rem, 18vw, 14rem)',
-              lineHeight: 0.88
+              animation: shouldReduceMotion
+                ? 'none'
+                : 'kestrelOrbit 1.1s linear infinite',
+              animationPlayState:
+                isExitingElements || isSlidingOut ? 'paused' : 'running',
+              opacity: isExitingElements || isSlidingOut ? 0 : 1,
+              transition: 'opacity 0.2s ease'
             }}
           >
-            <span>{count}</span>
-            <span className="text-accent text-[0.42em] ml-1.5 sm:ml-3 font-normal select-none">
-              %
-            </span>
+            {/* Fading trail behind the dot (conic-gradient arc masked to a thin ring) */}
+            <div
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                background:
+                  'conic-gradient(from 280deg at 50% 50%, transparent 0deg, color-mix(in oklab, var(--accent) 70%, transparent) 65deg, var(--accent) 80deg, transparent 80.5deg)',
+                WebkitMask:
+                  'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px))',
+                mask:
+                  'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px))'
+              }}
+            />
+
+            {/* Solid 10px dot in accent blue positioned at the top edge of the track */}
+            <div className="absolute -top-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] rounded-full bg-accent shadow-[0_0_10px_rgba(99,102,241,0.65)]" />
           </div>
+
+          {/* Center logo mark: rounded accent square scaled up to 48px */}
+          <motion.div
+            initial={
+              shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.85 }
+            }
+            animate={
+              isExitingElements || isSlidingOut
+                ? { opacity: 0, scale: 1.08 }
+                : { opacity: 1, scale: 1 }
+            }
+            transition={{
+              duration: isExitingElements || isSlidingOut ? 0.22 : 0.35,
+              ease: 'easeOut'
+            }}
+            className="relative z-10 w-12 h-12 rounded-xl bg-accent text-white flex items-center justify-center font-bold shadow-lg shadow-indigo-500/30"
+          >
+            <Command className="w-6 h-6" />
+          </motion.div>
         </div>
 
-        {/* Thin 2px progress line across the bottom that fills with the count, in accent blue */}
-        <div className="absolute inset-x-0 bottom-0 h-[2px] bg-line/20 overflow-hidden">
-          <div
-            className="h-full bg-accent transition-[width] duration-75 ease-out"
-            style={{ width: `${count}%` }}
-          />
-        </div>
+        {/* Wordmark "Kestrel" sitting below in var(--fg), small and medium weight */}
+        <motion.span
+          initial={
+            shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.85 }
+          }
+          animate={
+            isExitingElements || isSlidingOut
+              ? { opacity: 0 }
+              : { opacity: 1, scale: 1 }
+          }
+          transition={{
+            duration: isExitingElements || isSlidingOut ? 0.2 : 0.35,
+            ease: 'easeOut'
+          }}
+          className="mt-3.5 text-sm font-medium tracking-tight text-fg"
+        >
+          Kestrel
+        </motion.span>
       </div>
     </div>
   )

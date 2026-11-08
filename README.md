@@ -43,13 +43,13 @@ Designed with inspiration from **Linear** (minimalist structure, real code mocku
   - **Layer 4 (Radial Glow)**: Massive top-center radial gradient ellipse in theme `--glow` (30% accent in dark mode, 18% light blue in light mode).
   - **Layer 5 (Film Grain)**: Procedural SVG `feTurbulence` noise overlay (`mix-blend-mode: overlay`) at `--grain` opacity (5% dark, 3% light) to prevent color banding.
   - **Layer 6 (Bottom Fade)**: Seamless linear gradient fade into `var(--bg)` over the bottom 25% height.
-- **Full-Screen 0 to 100% Counter Loader with Split Shutter Reveal (`components/Loader.js`)**:
-  - **Counter**: Counts from 0 to 100% over 1.8s using Framer Motion's `animate(0, 100, { duration: 1.8, ease: [0.65, 0, 0.35, 1] })`. Displays massive typographic percentage (`clamp(5rem, 18vw, 14rem)` in `var(--fg)` with accent blue `%`), tabular figures to prevent jitter, and a "Loading workspace" label at the bottom-left.
-  - **Branded Layout**: Small Kestrel logo mark and wordmark positioned at the top-left, with a 2px accent blue progress line across the bottom edge.
-  - **Split Shutter Reveal**: When reaching 100%, holds for 250ms, then splits into two equal halves (top sliding `translateY(-100%)`, bottom sliding `translateY(100%)` over 0.7s with ease `[0.76, 0, 0.24, 1]`) to reveal the website like a cinematic shutter.
+- **Centered Orbiting Dot Intro Loader (`components/Loader.js`)**:
+  - **Centered Logo & Wordmark**: Centered 48px rounded accent square logo mark with `Command` icon, accompanied by a medium-weight "Kestrel" wordmark below. Both fade and scale in from 0.85 to 1 over 0.35s on entrance.
+  - **Orbit Track & Comet Dot**: A thin 1px circular track (112px diameter in `var(--line)`) with an orbiting 10px accent blue dot travelling clockwise around the track (1.1s linear loop). Features a masked conic-gradient arc that creates a soft fading comet tail behind the dot.
+  - **Dynamic Timing & Exit**: Displays for at least 1.6s (ensuring at least one full orbit is observed) and completes when the window load event has fired (or 2.5s at the latest). During exit, the dot pauses, track fades and shrinks, logo scales to 1.08 before fading, and the overlay slides up (`translateY(-100%)` over 0.7s with ease `[0.76, 0, 0.24, 1]`) to reveal the website.
   - **Hero Choreography**: Dispatches `kestrel:revealed` to trigger the hero section's staggered upward fade-in with an exact 80ms stagger across pill, headline, subheadline, CTAs, and ⌘K palette.
   - **Session Persistence**: Checked synchronously in `<head>` to attach `.skip-loader`, ensuring zero flash on repeat visits in the same session.
-  - **Accessibility & Failsafes**: `role="status"` with `aria-label="Loading Kestrel"`, counter is `aria-hidden` to avoid 100 screen reader updates, 200ms fade on `prefers-reduced-motion`, and a 3s pure CSS fallback animation if JavaScript execution is delayed.
+  - **Accessibility & Failsafes**: `role="status"` with `aria-label="Loading Kestrel"`, orbit track and dot are `aria-hidden`, 200ms fade on `prefers-reduced-motion` with static dot, and a 3s pure CSS fallback animation if JavaScript execution is delayed.
 - **Pure CSS Custom Blue Mouse Pointer**:
   - Implemented in `app/globals.css` with `@media (hover: hover) and (pointer: fine)`.
   - Default pointer: 24px blue arrow SVG (`#2563eb`) with white border and exact tip hotspot `(4 2)`.
