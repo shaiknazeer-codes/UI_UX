@@ -201,9 +201,9 @@ export default function Hero({ onOpenModal }) {
                 inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
               }
             }}
-            className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-line bg-card/60 hover:bg-bg-muted text-fg font-medium text-sm sm:text-base flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="group w-full sm:w-auto px-5 py-3.5 rounded-xl border border-line bg-card/60 hover:bg-white hover:text-slate-950 hover:border-white text-fg font-medium text-sm sm:text-base flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-xs hover:shadow-lg hover:shadow-white/15 cursor-pointer focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <Command className="w-4 h-4 text-accent" />
+            <Command className="w-4 h-4 text-accent transition-colors group-hover:text-slate-950" />
             <span>Try interactive ⌘K palette</span>
           </a>
         </motion.div>
