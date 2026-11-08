@@ -60,7 +60,7 @@ export default function Hero({ onOpenModal }) {
     // Fallback: reveal hero anyway if event was missed or delayed
     const fallbackTimer = setTimeout(() => {
       setIsRevealed(true)
-    }, 3500)
+    }, 7000)
 
     return () => {
       window.removeEventListener('kestrel:revealed', handleReveal)

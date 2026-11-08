@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, animate, useReducedMotion } from 'framer-motion'
 import { Command } from 'lucide-react'
 
 export default function Loader() {
   const shouldReduceMotion = useReducedMotion()
   const [phase, setPhase] = useState('active')
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     // Check if loader should be skipped for this session
@@ -27,7 +28,7 @@ export default function Loader() {
     document.body.style.overflow = 'hidden'
 
     if (shouldReduceMotion) {
-      // Under prefers-reduced-motion, show dot static and use 200ms fade as exit
+      // Under prefers-reduced-motion, show static dot and use 200ms fade as exit
       const timer = setTimeout(() => {
         setPhase('done')
         document.body.style.overflow = ''
@@ -39,53 +40,44 @@ export default function Loader() {
       return () => clearTimeout(timer)
     }
 
-    const minTime = 1600
-    const maxTime = 2500
-    const startTime = Date.now()
-
-    let hasLoaded =
-      typeof document !== 'undefined' && document.readyState === 'complete'
-
-    const handleWindowLoad = () => {
-      hasLoaded = true
-    }
-
-    if (!hasLoaded) {
-      window.addEventListener('load', handleWindowLoad, { once: true })
-    }
-
+    let holdTimer = null
     let slideTimer = null
     let doneTimer = null
 
-    // Check when to close: at least 1.6s, on window load or 2.5s at the latest
-    const checkInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      if ((hasLoaded && elapsed >= minTime) || elapsed >= maxTime) {
-        clearInterval(checkInterval)
+    // Count from 0 to 100 over 5.0s with smooth deceleration
+    const controls = animate(0, 100, {
+      duration: 5.0,
+      ease: [0.65, 0, 0.35, 1],
+      onUpdate: (latest) => {
+        setCount(Math.round(latest))
+      },
+      onComplete: () => {
+        // Hold 250ms at 100%
+        holdTimer = setTimeout(() => {
+          // Step 1: Inner elements exit (dot pauses, track shrinks & fades, logo scales to 1.08 & fades)
+          setPhase('exiting-elements')
 
-        // Step 1: Elements exit (dot stops, track shrinks & fades, logo scales to 1.08 & fades)
-        setPhase('exiting-elements')
+          // Step 2: Overlay slides up and out to reveal the page (0.7s)
+          slideTimer = setTimeout(() => {
+            setPhase('sliding-out')
+            document.body.style.overflow = ''
+            window.dispatchEvent(new CustomEvent('kestrel:revealed'))
 
-        // Step 2: Overlay slides up and out to reveal the page
-        slideTimer = setTimeout(() => {
-          setPhase('sliding-out')
-          document.body.style.overflow = ''
-          window.dispatchEvent(new CustomEvent('kestrel:revealed'))
-
-          // Step 3: Remove from DOM after 0.7s slide finishes
-          doneTimer = setTimeout(() => {
-            setPhase('done')
-            try {
-              sessionStorage.setItem('loaded', 'true')
-            } catch (e) {}
-          }, 700)
-        }, 220)
+            // Step 3: Remove from DOM after slide finishes
+            doneTimer = setTimeout(() => {
+              setPhase('done')
+              try {
+                sessionStorage.setItem('loaded', 'true')
+              } catch (e) {}
+            }, 700)
+          }, 220)
+        }, 250)
       }
-    }, 40)
+    })
 
     return () => {
-      clearInterval(checkInterval)
-      window.removeEventListener('load', handleWindowLoad)
+      controls.stop()
+      if (holdTimer) clearTimeout(holdTimer)
       if (slideTimer) clearTimeout(slideTimer)
       if (doneTimer) clearTimeout(doneTimer)
       document.body.style.overflow = ''
@@ -115,7 +107,7 @@ export default function Loader() {
       <div className="flex flex-col items-center">
         {/* Orbit track and central logo mark container */}
         <div className="relative w-[112px] h-[112px] flex items-center justify-center">
-          {/* Circular track: 1px border in var(--line), about 112px diameter */}
+          {/* Circular track: 1px border in var(--line), 112px diameter */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={
@@ -196,10 +188,47 @@ export default function Loader() {
             duration: isExitingElements || isSlidingOut ? 0.2 : 0.35,
             ease: 'easeOut'
           }}
-          className="mt-3.5 text-sm font-medium tracking-tight text-fg"
+          className="mt-3 text-sm font-semibold tracking-tight text-fg"
         >
           Kestrel
         </motion.span>
+
+        {/* Percentage Counter */}
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+          animate={
+            isExitingElements || isSlidingOut
+              ? { opacity: 0, scale: 1.08 }
+              : { opacity: 1, scale: 1 }
+          }
+          transition={{
+            duration: isExitingElements || isSlidingOut ? 0.2 : 0.35,
+            delay: isExitingElements || isSlidingOut ? 0 : 0.1,
+            ease: 'easeOut'
+          }}
+          className="mt-2.5 flex flex-col items-center"
+        >
+          <div
+            id="kestrel-counter"
+            aria-hidden="true"
+            className="text-2xl sm:text-3xl font-mono font-semibold tracking-tight tabular-nums text-fg flex items-baseline justify-center"
+          >
+            <span>{count}</span>
+            <span className="text-accent text-base ml-1 font-normal">%</span>
+          </div>
+
+          {/* Thin 2px progress bar under percentage */}
+          <div className="mt-3 w-36 h-1 rounded-full bg-line/40 overflow-hidden">
+            <div
+              className="h-full bg-accent rounded-full transition-[width] duration-75 ease-out"
+              style={{ width: `${count}%` }}
+            />
+          </div>
+
+          <span className="mt-2 text-[11px] font-mono uppercase tracking-widest text-muted font-medium">
+            Loading workspace
+          </span>
+        </motion.div>
       </div>
     </div>
   )
