@@ -106,34 +106,34 @@ export default function HeroBackground() {
               <stop offset="100%" stopColor="#172554" stopOpacity="0.15" />
             </linearGradient>
 
-            {/* Dark Theme Longitudinal Gradients (Electric Blue / Sapphire) */}
+            {/* Dark Theme Longitudinal Gradients (Deep Royal & Electric Blue) */}
             <linearGradient id="slat-dark-center" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#0f172a" stopOpacity="0" />
-              <stop offset="8%" stopColor="#1e40af" stopOpacity="0.35" />
-              <stop offset="25%" stopColor="#2563eb" stopOpacity="0.95" />
-              <stop offset="50%" stopColor="#93c5fd" stopOpacity="1" />
-              <stop offset="75%" stopColor="#2563eb" stopOpacity="0.95" />
-              <stop offset="92%" stopColor="#1e40af" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#0f172a" stopOpacity="0" />
+              <stop offset="0%" stopColor="#08080b" stopOpacity="0" />
+              <stop offset="8%" stopColor="#1e3a8a" stopOpacity="0.4" />
+              <stop offset="25%" stopColor="#1d4ed8" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#2563eb" stopOpacity="0.95" />
+              <stop offset="75%" stopColor="#1d4ed8" stopOpacity="0.9" />
+              <stop offset="92%" stopColor="#1e3a8a" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#08080b" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-dark-mid" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#08080b" stopOpacity="0" />
-              <stop offset="10%" stopColor="#1d4ed8" stopOpacity="0.3" />
-              <stop offset="28%" stopColor="#3b82f6" stopOpacity="0.9" />
-              <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.95" />
-              <stop offset="72%" stopColor="#3b82f6" stopOpacity="0.9" />
-              <stop offset="90%" stopColor="#1d4ed8" stopOpacity="0.25" />
+              <stop offset="10%" stopColor="#1e40af" stopOpacity="0.35" />
+              <stop offset="28%" stopColor="#2563eb" stopOpacity="0.85" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.9" />
+              <stop offset="72%" stopColor="#2563eb" stopOpacity="0.85" />
+              <stop offset="90%" stopColor="#1e40af" stopOpacity="0.3" />
               <stop offset="100%" stopColor="#08080b" stopOpacity="0" />
             </linearGradient>
 
             <linearGradient id="slat-dark-outer" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#08080b" stopOpacity="0" />
-              <stop offset="15%" stopColor="#1e3a8a" stopOpacity="0.25" />
-              <stop offset="35%" stopColor="#2563eb" stopOpacity="0.75" />
-              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.8" />
-              <stop offset="65%" stopColor="#2563eb" stopOpacity="0.75" />
-              <stop offset="85%" stopColor="#1e3a8a" stopOpacity="0.2" />
+              <stop offset="15%" stopColor="#172554" stopOpacity="0.3" />
+              <stop offset="35%" stopColor="#1e40af" stopOpacity="0.75" />
+              <stop offset="50%" stopColor="#2563eb" stopOpacity="0.8" />
+              <stop offset="65%" stopColor="#1e40af" stopOpacity="0.75" />
+              <stop offset="85%" stopColor="#172554" stopOpacity="0.25" />
               <stop offset="100%" stopColor="#08080b" stopOpacity="0" />
             </linearGradient>
 

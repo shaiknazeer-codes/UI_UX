@@ -4,6 +4,8 @@
   --bg: #f8f9fa;
   --fg: #090a0f;
   --muted: #64748b;
+  --subheadline: #0f172a;
+  --subheadline-shadow: none;
   --line: #e2e8f0;
   --card: #ffffff;
   --accent: #6366f1;
@@ -19,6 +21,8 @@
   --bg: #08080b;
   --fg: #f8fafc;
   --muted: #94a3b8;
+  --subheadline: #ffffff;
+  --subheadline-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85);
   --line: #1e2333;
   --card: #121524;
   --accent: #6366f1;
@@ -34,6 +38,7 @@
   --color-bg: var(--bg);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
+  --color-subheadline: var(--subheadline);
   --color-line: var(--line);
   --color-card: var(--card);
   --color-accent: var(--accent);

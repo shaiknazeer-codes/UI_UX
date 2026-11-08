@@ -169,7 +169,8 @@ export default function Hero({ onOpenModal }) {
           initial={{ opacity: 0, y: 18 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
           transition={{ duration: 0.5, delay: 0.16, ease: 'easeOut' }}
-          className="mt-6 text-lg sm:text-xl text-muted max-w-2xl mx-auto font-normal text-balance"
+          className="mt-6 text-lg sm:text-xl text-subheadline max-w-2xl mx-auto font-medium text-balance"
+          style={{ textShadow: 'var(--subheadline-shadow)' }}
         >
           The unified keyboard command center for high-velocity product teams.
           Replace disjointed tools with muscle memory, sub-8ms local sync, and git-native flow.
